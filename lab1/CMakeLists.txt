@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.17)
-project(labs)
+project(lab1)
 
 set(CMAKE_CXX_STANDARD 11)
 
@@ -10,7 +10,7 @@ find_library(GLUT_LIBRARY NAMES glut PATHS /usr/lib /usr/local/lib)
 
 include_directories(${OPENGL_INCLUDE_DIRS})
 
-add_executable(labs lab1.cpp
-        lab2.cpp)
+add_executable(lab1 main.cpp
+)
 
-target_link_libraries(labs ${OPENGL_LIBRARIES} ${GLUT_LIBRARY})
+target_link_libraries(lab1 ${OPENGL_LIBRARIES} ${GLUT_LIBRARY})
