@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.17)
-project(lab3)
+project(lab4)
 
 set(CMAKE_CXX_STANDARD 11)
 
@@ -12,7 +12,7 @@ find_package(DevIL REQUIRED)
 
 include_directories(${OPENGL_INCLUDE_DIRS})
 
-add_executable(lab3 main.cpp)
+add_executable(lab4 main.cpp)
 
 # Link against the required libraries (OpenGL, GLUT, and DevIL)
-target_link_libraries(lab3 ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} IL)
+target_link_libraries(lab4 ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} IL)

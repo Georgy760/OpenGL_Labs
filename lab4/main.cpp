@@ -7,6 +7,11 @@ GLuint textureID; // Идентификатор текстуры
 // Угол вращения камеры
 float cameraAngle = 0.0f;
 
+// Угол вращения для 2х фигур
+float rotationAngle_1 = 0.0f;
+float rotationAngle_2 = 0.0f;
+
+
 // Параметры призмы
 float baseVertices[][2] = {
         {3.0f, 0.0f},
@@ -139,18 +144,25 @@ void drawPrism() {
 }
 
 
+// Функция для вращения фигур
+void rotate(float rotationAngle, int polar) {
+    //if(polar < 0) rotationAngle * -1;
+    rotationAngle += 2.0f; //
+    if (rotationAngle > 360.0f) {
+        rotationAngle -= 360.0f;
+    }
+    glutPostRedisplay(); // Запрос на перерисовку
+}
+
 void display() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    // Вращаем фигуры
+    rotate(rotationAngle_1, -1);
+    rotate(rotationAngle_2, 1);
     // Включаем цвет вершин
     glEnable(GL_COLOR_MATERIAL);
     glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
-
-    // Рисуем призму
-    drawPrism();
-
-    // Отключаем цвет вершин
-    glDisable(GL_COLOR_MATERIAL);
 
     // Позиция камеры
     float cameraX = 20.0f * sin(cameraAngle);
@@ -160,6 +172,22 @@ void display() {
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     gluLookAt(cameraX, cameraY, 20.0f, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0);
+
+    // Отрисовка фигур
+    glPushMatrix();
+    glRotatef(rotationAngle_1, 0.0f, 0.0f, 1.0f); // Вращение вокруг Z-оси
+    glTranslatef(0.0, 0.0, 0.0); // Первая призма в начале координат
+    drawPrism();
+    glPopMatrix();
+
+    glPushMatrix();
+    glRotatef(rotationAngle_2, 0.0f, 0.0f, 1.0f); // Вращение вокруг Z-оси
+    glTranslatef(3.0, 3.0, 0.0); // Перемещаем вторую призму
+    drawPrism(); // Можете использовать другую функцию для второй фигуры
+    glPopMatrix();
+
+    // Отключаем цвет вершин
+    glDisable(GL_COLOR_MATERIAL);
 
     glutSwapBuffers();
 }

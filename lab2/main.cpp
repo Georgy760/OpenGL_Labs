@@ -85,7 +85,6 @@ void drawPrism() {
     glEnd();
 }
 
-// Функция отрисовки сцены
 void display() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -124,8 +123,8 @@ int main(int argc, char** argv) {
     glutIdleFunc([]() {
         // Вращаем камеру
         cameraAngle += 0.01f;
-        if (cameraAngle > 2 * 3.14159265f) {
-            cameraAngle -= 2 * 3.14159265f;
+        if (cameraAngle > 2 * M_PI) { //3.14159265f
+            cameraAngle -= 2 * M_PI;
         }
         glutPostRedisplay();
     });
