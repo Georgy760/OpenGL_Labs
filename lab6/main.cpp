@@ -1,5 +1,5 @@
 #include <GL/glu.h>
-#include "gl/glut.h"
+#include "GL/glut.h"
 #include <cmath>
 
 // Функция, представляющая поверхность второго порядка
