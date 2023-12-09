@@ -4,7 +4,7 @@
 
 // Функция, представляющая поверхность второго порядка
 float surfaceFunction(float x, float y) {
-    return x * x * x + y * y * y;
+    return (x * x * x) - 3 * (x * y * y);
 }
 
 // Переменная состояния для включения/выключения триангуляции
@@ -144,7 +144,7 @@ void keyboard(unsigned char key, int x, int y) {
 int main(int argc, char** argv) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-    glutCreateWindow("Triangulated Surface with Contour");
+    glutCreateWindow("Triangulated Surface");
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);
     glutKeyboardFunc(keyboard);
