@@ -1,9 +1,10 @@
-#include <GL/glut.h>
+#include <GL/glu.h>
+#include "gl/glut.h"
 #include <cmath>
 
 // Функция, представляющая поверхность второго порядка
 float surfaceFunction(float x, float y) {
-    return x * x + y * y;
+    return x * x * x + y * y * y;
 }
 
 // Переменная состояния для включения/выключения триангуляции
