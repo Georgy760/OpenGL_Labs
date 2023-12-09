@@ -3,8 +3,16 @@
 #include <cmath>
 
 // Функция, представляющая поверхность второго порядка
-float surfaceFunction(float x, float y) {
-    return (x * x * x) - 3 * (x * y * y);
+void surfaceFunction(float u, float v, float& x, float& y, float& z) {
+    // Параметры
+    float a = 1.0f;
+    float b = 1.5f;
+    float c = 1.0f;
+
+    // Параметрическое уравнение
+    x = a*cos(u);
+    y = b*sin(v);
+    z = v;
 }
 
 // Переменная состояния для включения/выключения триангуляции
@@ -14,30 +22,14 @@ bool enableTriangulation = true;
 float cameraAngleX = 0.0f;
 float cameraAngleY = 0.0f;
 
+void drawer(const int numDivisions, const float stepSize);
+
 // Функция для рисования поверхности
 void drawSurface() {
     const int numDivisions = 50;
     const float stepSize = 2.0 / numDivisions;
 
-    glBegin(GL_TRIANGLES);
-
-    for (int i = 0; i < numDivisions; ++i) {
-        for (int j = 0; j < numDivisions; ++j) {
-            float x = -1.0 + i * stepSize;
-            float y = -1.0 + j * stepSize;
-
-            // Триангуляция прямоугольника
-            glVertex3f(x, y, surfaceFunction(x, y));
-            glVertex3f(x + stepSize, y, surfaceFunction(x + stepSize, y));
-            glVertex3f(x, y + stepSize, surfaceFunction(x, y + stepSize));
-
-            glVertex3f(x + stepSize, y, surfaceFunction(x + stepSize, y));
-            glVertex3f(x + stepSize, y + stepSize, surfaceFunction(x + stepSize, y + stepSize));
-            glVertex3f(x, y + stepSize, surfaceFunction(x, y + stepSize));
-        }
-    }
-
-    glEnd();
+    drawer(numDivisions, stepSize);
 }
 
 // Функция для рисования контура поверхности
@@ -48,28 +40,50 @@ void drawSurfaceContour() {
     glColor3f(0.0, 0.0, 0.0);
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // Режим рисования контура
 
+    drawer(numDivisions, stepSize);
+
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // Восстанавливаем обычный режим рисования
+}
+
+void drawer(const int numDivisions, const float stepSize) {
     glBegin(GL_TRIANGLES);
 
     for (int i = 0; i < numDivisions; ++i) {
         for (int j = 0; j < numDivisions; ++j) {
-            float x = -1.0 + i * stepSize;
-            float y = -1.0 + j * stepSize;
+            float u1 = -1.0 + i * stepSize;
+            float v1 = -1.0 + j * stepSize;
 
-            // Триангуляция прямоугольника
-            glVertex3f(x, y, surfaceFunction(x, y));
-            glVertex3f(x + stepSize, y, surfaceFunction(x + stepSize, y));
-            glVertex3f(x, y + stepSize, surfaceFunction(x, y + stepSize));
+            float u2 = u1 + stepSize;
+            float v2 = v1 + stepSize;
 
-            glVertex3f(x + stepSize, y, surfaceFunction(x + stepSize, y));
-            glVertex3f(x + stepSize, y + stepSize, surfaceFunction(x + stepSize, y + stepSize));
-            glVertex3f(x, y + stepSize, surfaceFunction(x, y + stepSize));
+            float x1, y1, z1, x2, y2, z2, x3, y3, z3, x4, y4, z4;
+
+            // Точки для первого треугольника
+            surfaceFunction(u1, v1, x1, y1, z1);
+            surfaceFunction(u2, v1, x2, y2, z2);
+            surfaceFunction(u1, v2, x3, y3, z3);
+
+            // Рисуем первый треугольник
+            glVertex3f(x1, y1, z1);
+            glVertex3f(x2, y2, z2);
+            glVertex3f(x3, y3, z3);
+
+            // Точки для второго треугольника
+            surfaceFunction(u2, v1, x2, y2, z2);
+            surfaceFunction(u2, v2, x4, y4, z4);
+            surfaceFunction(u1, v2, x3, y3, z3);
+
+            // Рисуем второй треугольник
+            glVertex3f(x2, y2, z2);
+            glVertex3f(x4, y4, z4);
+            glVertex3f(x3, y3, z3);
         }
     }
 
     glEnd();
-
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // Восстанавливаем обычный режим рисования
 }
+
+
 
 // Функция отрисовки сцены
 void display() {
