@@ -35,7 +35,7 @@ void loadTexture() {
     ilGenImages(1, &imageID);
     ilBindImage(imageID);
 
-    ILboolean success = ilLoadImage("/home/axelsingleton/Pictures/ava (copy).jpg");
+    ILboolean success = ilLoadImage("/home/axel/Pictures/avatar.jpg");
     if (success) {
         success = ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE);
         if (!success) {

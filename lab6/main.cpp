@@ -34,7 +34,7 @@ void drawSurface() {
 
 // Функция для рисования контура поверхности
 void drawSurfaceContour() {
-    const int numDivisions = 50;
+    const int numDivisions = 30;
     const float stepSize = 2.0 / numDivisions;
 
     glColor3f(0.0, 0.0, 0.0);
@@ -158,7 +158,9 @@ void keyboard(unsigned char key, int x, int y) {
 int main(int argc, char** argv) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+   // glutInitWindowSize(1000, 1000);
     glutCreateWindow("Triangulated Surface");
+    
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);
     glutKeyboardFunc(keyboard);
